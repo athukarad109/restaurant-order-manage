@@ -1,9 +1,14 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
 const User = require('../Models/userSchema');
 
 const router = express.Router();
+
+dotenv.config();
+
+const jwt_secret = process.env.JWT_SECRET
 
 router.get('/', (req, res) => {
     res.send("User route");
@@ -39,7 +44,12 @@ router.post('/login', async(req, res) => {
             return res.status(401).json({ 'error': 'Unauthorized' });
         }
 
-        res.json({ isPass });
+        let data = {
+            id: thisUser._id
+        }
+
+        const token = jwt.sign(data, jwt_secret);
+        res.json({ token });
 
     } catch (error) {
         res.status(500).json({ error })

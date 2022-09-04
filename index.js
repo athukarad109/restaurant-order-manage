@@ -1,6 +1,7 @@
 const express = require('express');
 const menuItem = require('./Routers/menuItem');
 const user = require('./Routers/user');
+const order = require('./Routers/order');
 const mongoose = require('mongoose');
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(express.json())
 
 app.use('/menu', menuItem);
 app.use('/user', user);
+app.use('/order', order);
 
 app.get('/', (req, res) => {
     res.send("Hello World");
