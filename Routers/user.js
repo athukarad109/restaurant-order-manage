@@ -44,11 +44,11 @@ router.post('/login', async(req, res) => {
             return res.status(401).json({ 'error': 'Unauthorized' });
         }
 
-        let data = {
+        let user = {
             id: thisUser._id
         }
 
-        const token = jwt.sign(data, jwt_secret);
+        const token = jwt.sign(user, jwt_secret);
         res.json({ token });
 
     } catch (error) {

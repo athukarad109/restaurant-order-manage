@@ -1,5 +1,7 @@
 const express = require('express');
 const Menu = require('../Models/menuSchema')
+const User = require('../Models/userSchema')
+const auth = require('../Middleware/authenticate');
 
 const router = express.Router();
 
@@ -7,8 +9,16 @@ router.get('/', (req, res) => {
     res.send("Menu item router");
 })
 
-router.post('/create', async(req, res) => {
+router.post('/create', auth, async(req, res) => {
+    let loggedinuser = req.user;
     try {
+
+        const admin = await User.findById(loggedinuser.id);
+
+        if (admin === null) {
+            return res.status(401).json({ 'erro': 'Not authorized' });
+        }
+
         const { title, description, catagory } = req.body;
         const newMenu = await Menu.create({
             title: title,
@@ -32,8 +42,17 @@ router.get('/getAll', async(req, res) => {
 
 })
 
-router.put('/edit/:id', async(req, res) => {
+router.put('/edit/:id', auth, async(req, res) => {
+    let loggedinuser = req.user;
     try {
+
+        const admin = await User.findById(loggedinuser.id);
+
+        if (admin === null) {
+            return res.status(401).json({ 'erro': 'Not authorized' });
+        }
+
+
         const id = req.params.id
         const { title, description, catagory } = req.body;
         let newMenu = {};
@@ -61,8 +80,15 @@ router.put('/edit/:id', async(req, res) => {
     }
 })
 
-router.delete('/delete/:id', async(req, res) => {
+router.delete('/delete/:id', auth, async(req, res) => {
+    let loggedinuser = req.user;
     try {
+        const admin = await User.findById(loggedinuser.id);
+
+        if (admin === null) {
+            return res.status(401).json({ 'erro': 'Not authorized' });
+        }
+
         const id = req.params.id
         const thisMenu = await Menu.findById(id);
         if (!thisMenu) {
