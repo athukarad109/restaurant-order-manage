@@ -19,11 +19,12 @@ router.post('/create', auth, async(req, res) => {
             return res.status(401).json({ 'erro': 'Not authorized' });
         }
 
-        const { title, description, catagory } = req.body;
+        const { title, description, catagory, price } = req.body;
         const newMenu = await Menu.create({
             title: title,
             description: description,
-            catagory: catagory
+            catagory: catagory,
+            price: price
         })
         res.json(newMenu);
     } catch (error) {

@@ -16,6 +16,10 @@ const Order = new mongoose.Schema({
     status: {
         type: String, //order placed, preparing, served
         required: true
+    },
+    table: {
+        type: Number,
+        required: true
     }
 })
 
