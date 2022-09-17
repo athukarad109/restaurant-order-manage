@@ -55,7 +55,7 @@ router.put('/edit/:id', auth, async(req, res) => {
 
 
         const id = req.params.id
-        const { title, description, catagory } = req.body;
+        const { title, description, catagory, price } = req.body;
         let newMenu = {};
         if (title) {
             newMenu.title = title
@@ -65,6 +65,9 @@ router.put('/edit/:id', auth, async(req, res) => {
         }
         if (catagory) {
             newMenu.catagory = catagory
+        }
+        if (price) {
+            newMenu.price = price
         }
 
         const thisMenu = await Menu.findById(id);

@@ -9,12 +9,13 @@ router.get('/', (req, res) => {
 
 router.post('/create', async(req, res) => {
     try {
-        const { order, total, status } = req.body
+        const { order, total, status, table } = req.body
 
         const newOrder = await Order.create({
             order: order,
             total: total,
-            status: status
+            status: status,
+            table: table
         })
 
         res.json({ newOrder });
